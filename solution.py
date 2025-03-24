@@ -61,7 +61,7 @@ tokenized_test.set_format("torch", columns=["input_ids", "attention_mask", "labe
 
 # Load the model
 model = AutoModelForSequenceClassification.from_pretrained(
-    "google-bert/bert-base-uncased", num_labels=2, torch_dtype="auto"
+    "google-bert/bert-base-uncased", num_labels=3, torch_dtype="auto"
 )
 
 # Define training arguments
