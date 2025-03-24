@@ -1,6 +1,9 @@
 import datasets
-
-from transformers import AutoTokenizer
+from transformers import (
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+    TrainingArguments,
+)
 
 dataset = datasets.load_dataset("ucberkeley-dlab/measuring-hate-speech", "default")
 
@@ -14,3 +17,13 @@ def tokenize_function(examples):
 
 
 tokenized_datasets = dataset.map(tokenize_function, batched=True)
+
+tokenized_dataset = tokenized_datasets.rename_column("hatespeech", "labels")
+
+tokenized_dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
+
+model = AutoModelForSequenceClassification.from_pretrained(
+    "google-bert/bert-base-uncased", num_labels=2, torch_dtype="auto"
+)
+
+training_args = TrainingArguments(output_dir="test_trainer")
