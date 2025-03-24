@@ -5,11 +5,13 @@ from transformers import (
     TrainingArguments,
     Trainer,
 )
+import evaluate  # Add this import
+import numpy as np  # Required for np.argmax
 
 # Load the dataset
 dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")
 
-# Split the dataset (assuming no test split exists)
+# Split the dataset
 if "test" not in dataset:
     dataset = dataset["train"].train_test_split(test_size=0.2, seed=42)
 train_dataset = dataset["train"]
@@ -29,9 +31,8 @@ tokenized_train = train_dataset.map(tokenize_function, batched=True)
 tokenized_test = test_dataset.map(tokenize_function, batched=True)
 
 
-# Rename 'hatespeech' to 'labels' and convert to integer
+# Convert 'hatespeech' to integer labels
 def convert_labels(examples):
-    # Ensure labels are integers (0 or 1) instead of floats (0.0 or 1.0)
     examples["labels"] = [int(label) for label in examples["hatespeech"]]
     return examples
 
@@ -39,7 +40,7 @@ def convert_labels(examples):
 tokenized_train = tokenized_train.map(convert_labels, batched=True)
 tokenized_test = tokenized_test.map(convert_labels, batched=True)
 
-# Remove unnecessary columns and set format for PyTorch
+# Remove unnecessary columns and set format
 tokenized_train = tokenized_train.remove_columns(
     [
         col
@@ -65,15 +66,28 @@ model = AutoModelForSequenceClassification.from_pretrained(
 
 # Define training arguments
 training_args = TrainingArguments(
-    output_dir="test_trainer", evaluation_strategy="epoch"
+    output_dir="test_trainer",
+    eval_strategy="epoch",
 )
 
-# Initialize the Trainer
+# Load the accuracy metric
+metric = evaluate.load("accuracy")
+
+
+# Define the compute_metrics function
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)  # Get the predicted class (0 or 1)
+    return metric.compute(predictions=predictions, references=labels)
+
+
+# Initialize the Trainer with compute_metrics
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_train,
     eval_dataset=tokenized_test,
+    compute_metrics=compute_metrics,
 )
 
 # Start training
