@@ -4,4 +4,4 @@ numpy
 evaluate
 torch
 accelerate>=0.26.0
-sklearn
+scikit-learn
