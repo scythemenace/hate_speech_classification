@@ -14,11 +14,12 @@ pipe_moritz = pipeline(model="MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli")
 
 text1 = "I feel that business majors are retarded - Is this statement toxic? Answer yes or no"
 
-labels = ["yes", "no"]
+labels = ["hateful", "not-hateful", "neutral"]
 
 
 def predict_with_pipeline(pipe, text):
-    result = pipe(text, candidate_labels=labels)
+    prompt_text = f"Is this text hateful: {text}"
+    result = pipe(prompt_text, candidate_labels=labels)
     scores = result["scores"]  # [P(yes), P(no)]
     return 1 if scores[0] > scores[1] else 0
 
