@@ -14,7 +14,7 @@ pipe_fb = pipeline(model="facebook/bart-large-mnli")
 pipe_moritz = pipeline(model="MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli")
 
 # Define candidate labels (simplified to binary for clarity)
-labels = ["This text is hateful", "This text is not hateful"]
+labels = ["hateful", "not-hateful", "neutral"]
 
 
 # Prediction function for zero-shot pipeline
