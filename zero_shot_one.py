@@ -35,6 +35,11 @@ for text in test_dataset["text"]:
     predictions_moritz.append(pred_moritz)
     predictions_fb.append(pred_fb)
 
+diff_count = sum(
+    1 for fb, moritz in zip(predictions_fb, predictions_moritz) if fb != moritz
+)
+print(f"Number of differing predictions: {diff_count} out of {len(predictions_fb)}")
+
 # Evaluate
 metric = evaluate.load("accuracy")
 accuracy_moritz = metric.compute(predictions=predictions_moritz, references=true_labels)
