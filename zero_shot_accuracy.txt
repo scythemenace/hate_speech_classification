@@ -1,2 +1,2 @@
-BART-large-mnli Accuracy: 0.591
-DeBERTa-v3-base-mnli Accuracy: 0.591
+BART Test Accuracy: 0.409
+DeBERTa Test Accuracy: 0.409
