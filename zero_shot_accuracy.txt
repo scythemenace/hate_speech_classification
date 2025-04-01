@@ -1,2 +1,2 @@
-BART Test Accuracy: 0.409
-DeBERTa Test Accuracy: 0.409
+BART Test Accuracy (3-class): 0.342
+DeBERTa Test Accuracy (3-class): 0.342
