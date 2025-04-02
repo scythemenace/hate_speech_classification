@@ -1,0 +1,3 @@
+BoW (Logistic Regression) Accuracy (3-class): 0.783
+Majority Class Baseline Accuracy (3-class): 0.591
+Random Baseline Accuracy (3-class): 0.332
