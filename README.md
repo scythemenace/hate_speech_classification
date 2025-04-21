@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/vQMaLvtr)
-
 # Hate Speech Classification Project
 
 This project performs hate speech classification on the `ucberkeley-dlab/measuring-hate-speech` dataset, categorizing social media comments into three classes: not-hateful (0), neutral (1), and hateful (2). The project includes fine-tuned transformer models, zero-shot models, and baseline classifiers, with results reported in `Report.pdf`.
